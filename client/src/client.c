@@ -54,7 +54,9 @@ int main(void)
 
 t_log* iniciar_logger(void)
 {
-	t_log* nuevo_logger;
+	t_log* nuevo_logger = log_create("/home/utnso/Desktop/tp0/tp0.log","tp0",1,LOG_LEVEL_INFO);
+
+	log_info(nuevo_logger, "Hola! Soy un log");
 
 	return nuevo_logger;
 }
