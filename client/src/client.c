@@ -31,6 +31,11 @@ int main(void)
 
 	// Loggeamos el valor de config
 
+	valor = config_get_string_value(config, "CLAVE");
+	ip = config_get_string_value(config, "IP");
+	puerto = config_get_string_value(config, "PUERTO");
+
+	log_info(logger, "Lei la CLAVE: %s , la IP: %s y el PUERTO: %s \n", valor, ip, puerto);
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
@@ -67,7 +72,7 @@ t_log* iniciar_logger(void)
 
 t_config* iniciar_config(void)
 {
-	t_config* nuevo_config;
+	t_config* nuevo_config = config_create("/home/utnso/Desktop/tp0/client/cliente.config");
 
 	return nuevo_config;
 }
@@ -105,4 +110,6 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
 
 	  log_destroy(logger);
+
+	  config_destroy(config);
 }
