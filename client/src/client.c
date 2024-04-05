@@ -29,13 +29,13 @@ int main(void)
 	// Usando el config creado previamente, leemos los valores del config y los 
 	// dejamos en las variables 'ip', 'puerto' y 'valor'
 
-	// Loggeamos el valor de config
-
 	valor = config_get_string_value(config, "CLAVE");
 	ip = config_get_string_value(config, "IP");
 	puerto = config_get_string_value(config, "PUERTO");
 
-	log_info(logger, "Lei la CLAVE: %s , la IP: %s y el PUERTO: %s \n", valor, ip, puerto);
+	// Loggeamos el valor de config
+
+	log_info(logger, "VALOR leido en la config: %s \n", valor);
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
@@ -57,6 +57,8 @@ int main(void)
 
 	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
 	// Proximamente
+
+	printf("\n¡Cliente Cerrado!");
 }
 
 t_log* iniciar_logger(void)
@@ -64,8 +66,8 @@ t_log* iniciar_logger(void)
 	t_log* nuevo_logger = log_create("/home/utnso/Desktop/tp0/tp0.log","tp0",1,LOG_LEVEL_INFO);
 
 	if (nuevo_logger == NULL) {
-		printf("No se pudo crear el logger\n");
-		exit(1);
+		perror("No se pudo iniciar el logger");
+		exit(EXIT_FAILURE);
 	}
 	return nuevo_logger;
 }
@@ -75,8 +77,8 @@ t_config* iniciar_config(void)
 	t_config* nuevo_config = config_create("/home/utnso/Desktop/tp0/client/cliente.config");
 
 	if(nuevo_config == NULL) {
-		printf("No se pudo crear la config\n");
-		exit(2);
+		perror("No se pudo crear la config\n");
+		exit(EXIT_FAILURE);
 	}
 
 	return nuevo_config;
@@ -86,16 +88,16 @@ void leer_consola(t_log* logger)
 {
 	char* leido;
 
-	while (1) {
-		leido = readline("> ");
+	leido = readline("> ");
+	log_info(logger,">> %s", leido);
 
-		if(!leido) {
-			break;
-		}
-		log_info(logger,"%s\n",leido);
+	while (strcmp(leido,"") != 0) {
 		free(leido);
+		leido = readline("> ");
+		log_info(logger,">> %s",leido);
 	}
 
+	free(leido);
 }
 
 void paquete(int conexion)
